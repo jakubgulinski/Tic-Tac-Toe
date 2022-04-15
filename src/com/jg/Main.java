@@ -1,9 +1,12 @@
 package com.jg;
 
+import com.jg.ui.GameFrame;
+
+import javax.swing.*;
+
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
-        System.out.println();
+        SwingUtilities.invokeLater(GameFrame::new);
     }
 }
