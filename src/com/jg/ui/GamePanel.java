@@ -22,19 +22,6 @@ public class GamePanel extends JPanel {
 
         this.add(optionPanel, BorderLayout.NORTH);
         this.add(boardPanel, BorderLayout.CENTER);
-
-
-//        JFrame fr = new JFrame();
-//        fr.setLayout(new GridLayout(2, 1));
-//        fr.setLocationRelativeTo(null);
-//        fr.add(new JLabel("Player 1 won"));
-//        JButton button = new JButton("ok");
-//        fr.add(button);
-//        fr.pack();
-//        fr.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-//        fr.setVisible(true);
-
-
     }
 
     private JPanel makeBoardPanel() {
@@ -46,7 +33,6 @@ public class GamePanel extends JPanel {
         for (int i = 0; i < buttons.length; i++) {
             for (int j = 0; j < buttons[i].length; j++) {
                 JButton button = new JButton();
-//                button.setText("");
                 buttons[i][j] = button;
                 boardPanel.add(button);
             }
@@ -79,15 +65,12 @@ public class GamePanel extends JPanel {
         for (int i = 0; i < buttons.length; i++) {
             for (int j = 0; j < buttons[i].length; j++) {
                 buttons[i][j].setText("");
+                board.getBoardArray()[i][j] = "";
             }
         }
         board.setGameResult(GameResult.GAME_IN_PROGRESS);
 
         Game game = new Game(board, player1, player2);
         game.start();
-
-
-
-
     }
 }

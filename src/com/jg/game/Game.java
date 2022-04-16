@@ -11,24 +11,24 @@ public class Game {
     public Game(Board board, PlayerType playerType1, PlayerType playerType2) {
         this.board = board;
         switch (playerType1) {
-            case PLAYER -> player1 = new Player(this, Sign.X);
-            case EASY -> player1 = new Easy(this, Sign.X);
-//            case MEDIUM -> player1 = new Medium();
-//            case HARD -> player1 = new Hard();
+            case PLAYER -> player1 = new Player(board, Sign.X);
+            case EASY -> player1 = new Easy(board, Sign.X);
+            case MEDIUM -> player1 = new Medium(board, Sign.X);
+            case HARD -> player1 = new Hard(board, Sign.X);
         }
         switch (playerType2) {
-            case PLAYER -> player2 = new Player(this, Sign.O, player1);
-            case EASY -> player2 = new Easy(this, Sign.O, player1);
-//            case MEDIUM -> player2 = new Medium();
-//            case HARD -> player2 = new Hard();
+            case PLAYER -> player2 = new Player(board, Sign.O, player1);
+            case EASY -> player2 = new Easy(board, Sign.O, player1);
+            case MEDIUM -> player2 = new Medium(board, Sign.O, player1);
+            case HARD -> player2 = new Hard(board, Sign.O, player1);
         }
     }
 
-    public BasePlayer getPlayer1() {
+    public BasePlayerInterface getPlayer1() {
         return player1;
     }
 
-    public BasePlayer getPlayer2() {
+    public BasePlayerInterface getPlayer2() {
         return player2;
     }
 

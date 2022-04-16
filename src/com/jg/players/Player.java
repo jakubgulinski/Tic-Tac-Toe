@@ -1,36 +1,19 @@
 package com.jg.players;
 
-import com.jg.game.GameResult;
 import com.jg.game.Board;
-import com.jg.game.Game;
+import com.jg.game.GameResult;
 import com.jg.game.Sign;
 
 import javax.swing.*;
 
-public class Player implements BasePlayer {
-    private final Board board;
-    private final Sign sign;
-    private BasePlayer opponent;
+public class Player extends BasePlayer {
 
-    public Player(Game game, Sign sign, BasePlayer opponent) {
-        this.board = game.getBoard();
-        this.sign = sign;
-        this.opponent = opponent;
+    public Player(Board board, Sign sign) {
+        super(board, sign);
     }
 
-    public Player(Game game, Sign sign) {
-        this.board = game.getBoard();
-        this.sign = sign;
-    }
-
-    public void setOpponent(BasePlayer opponent) {
-        this.opponent = opponent;
-    }
-
-    @Override
-    public Sign getSign() {
-        return sign;
-
+    public Player(Board board, Sign sign, BasePlayer opponent) {
+        super(board, sign, opponent);
     }
 
     @Override
@@ -43,25 +26,24 @@ public class Player implements BasePlayer {
                 buttons[i][j].addActionListener(e ->
                 {
                     if (board.getGameResult() == GameResult.GAME_IN_PROGRESS) {
-                        buttonPressed(buttons[finalI][finalJ]);
+                        buttonPressed(buttons[finalI][finalJ], finalI, finalJ);
+
                     }
                 });
             }
         }
     }
 
-    private void buttonPressed(JButton button) {
-        String sign = this.sign == Sign.X ? "X" : "O";
+    private void buttonPressed(JButton button, int x, int y) {
         if ("".equals(button.getText())) {
-            button.setText(sign);
+            board.setCell(x, y, sign.name());
             board.checkResult(this);
             GameResult gameResult = board.getGameResult();
             if (gameResult == GameResult.GAME_IN_PROGRESS) {
                 opponent.makeAMove();
             } else {
-                System.out.println(gameResult);
+                board.showResult();
             }
-
         }
     }
 }

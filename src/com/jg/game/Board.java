@@ -1,27 +1,35 @@
 package com.jg.game;
 
-import com.jg.players.BasePlayer;
+import com.jg.players.BasePlayerInterface;
+import com.jg.ui.GameResultFrame;
 
 import javax.swing.*;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Stream;
 
 public class Board {
     private final JButton[][] buttons;
-    private volatile GameResult gameResult;
+    private String[][] boardArray;
+    private GameResult gameResult;
 
     public Board() {
         this.buttons = new JButton[3][3];
+        this.boardArray = new String[3][3];
+
+        for (String[] row : boardArray) {
+            Arrays.fill(row, "");
+        }
     }
 
     public JButton[][] getButtons() {
         return buttons;
     }
 
-    public GameResult getGameResult() {
+    public String[][] getBoardArray() {
+        return boardArray;
+    }
 
+    public GameResult getGameResult() {
         return gameResult;
     }
 
@@ -29,48 +37,52 @@ public class Board {
         this.gameResult = gameResult;
     }
 
-    public void checkResult(BasePlayer basePlayer) {
+    public void setCell(int x, int y, String sign) {
+        boardArray[x][y] = sign;
+        buttons[x][y].setText(sign);
+    }
+
+    public void checkResult(BasePlayerInterface basePlayer) {
         if (hasWon(basePlayer)) {
             gameResult = basePlayer.getSign() == Sign.X ? GameResult.X_WON : GameResult.O_WON;
-        }
-        else if (isDraw()) {
+        } else if (isDraw()) {
             gameResult = GameResult.DRAW;
         } else {
             gameResult = GameResult.GAME_IN_PROGRESS;
         }
     }
 
-    private boolean hasWon(BasePlayer basePlayer) {
+    private boolean hasWon(BasePlayerInterface basePlayer) {
         String sign = basePlayer.getSign() == Sign.X ? "X" : "O";
 
 
-        for (int column = 0; column < buttons.length; column++) {
-            boolean columnsCheck = (Arrays.stream(buttons[column])
-                    .allMatch(button -> sign.equals(button.getText())));
+        for (int column = 0; column < boardArray.length; column++) {
+            boolean columnsCheck = (Arrays.stream(boardArray[column])
+                    .allMatch(sign::equals));
             if (columnsCheck) {
                 return true;
             }
         }
 
-        for (int row = 0; row < buttons.length; row++) {
-            boolean rowCheck = Stream.of(buttons[0][row], buttons[1][row], buttons[2][row])
-                    .allMatch(button -> sign.equals(button.getText()));
+        for (int row = 0; row < boardArray.length; row++) {
+            boolean rowCheck = Stream.of(boardArray[0][row], boardArray[1][row], boardArray[2][row])
+                    .allMatch(sign::equals);
             if (rowCheck) {
                 return true;
             }
         }
-        boolean diagonalCheck = Stream.of(buttons[0][0], buttons[1][1], buttons[2][2])
-                .allMatch(button -> sign.equals(button.getText()));
+        boolean diagonalCheck = Stream.of(boardArray[0][0], boardArray[1][1], boardArray[2][2])
+                .allMatch(sign::equals);
 
         return diagonalCheck ||
-                Stream.of(buttons[0][2], buttons[1][1], buttons[2][0])
-                .allMatch(button -> sign.equals(button.getText()));
+                Stream.of(boardArray[0][2], boardArray[1][1], boardArray[2][0])
+                        .allMatch(sign::equals);
     }
 
     private boolean isDraw() {
-        for (JButton[] row : buttons) {
-            for (JButton jButton : row) {
-                if ("".equals(jButton.getText())) {
+        for (String[] row : boardArray) {
+            for (String cell : row) {
+                if ("".equals(cell)) {
                     return false;
                 }
             }
@@ -78,14 +90,8 @@ public class Board {
         return true;
     }
 
-    @Override
-    public String toString() {
-        List<String> board = new ArrayList<>();
-        for (JButton[] row : buttons) {
-            for (JButton jButton : row) {
-                board.add(jButton.getText());
-            }
-        }
-        return board.toString();
+
+    public void showResult() {
+        new GameResultFrame(gameResult);
     }
 }
