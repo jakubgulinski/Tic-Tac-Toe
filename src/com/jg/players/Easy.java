@@ -27,8 +27,7 @@ public class Easy extends BasePlayer {
 
         board.setCell(x, y, sign.name());
 
-        board.checkResult(this);
-        GameResult gameResult = board.getGameResult();
+        GameResult gameResult = board.checkResult(sign);
         if (gameResult == GameResult.GAME_IN_PROGRESS) {
             opponent.makeAMove();
         } else {

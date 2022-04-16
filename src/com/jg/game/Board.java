@@ -42,23 +42,23 @@ public class Board {
         buttons[x][y].setText(sign);
     }
 
-    public void checkResult(BasePlayerInterface basePlayer) {
-        if (hasWon(basePlayer)) {
-            gameResult = basePlayer.getSign() == Sign.X ? GameResult.X_WON : GameResult.O_WON;
+    public GameResult checkResult(Sign sign) {
+        if (hasWon(sign)) {
+            gameResult = sign == Sign.X ? GameResult.X_WON : GameResult.O_WON;
         } else if (isDraw()) {
             gameResult = GameResult.DRAW;
         } else {
             gameResult = GameResult.GAME_IN_PROGRESS;
         }
+        return gameResult;
     }
 
-    private boolean hasWon(BasePlayerInterface basePlayer) {
-        String sign = basePlayer.getSign() == Sign.X ? "X" : "O";
+    public boolean hasWon(Sign sign) {
 
 
         for (int column = 0; column < boardArray.length; column++) {
             boolean columnsCheck = (Arrays.stream(boardArray[column])
-                    .allMatch(sign::equals));
+                    .allMatch(sign.name()::equals));
             if (columnsCheck) {
                 return true;
             }
@@ -66,20 +66,20 @@ public class Board {
 
         for (int row = 0; row < boardArray.length; row++) {
             boolean rowCheck = Stream.of(boardArray[0][row], boardArray[1][row], boardArray[2][row])
-                    .allMatch(sign::equals);
+                    .allMatch(sign.name()::equals);
             if (rowCheck) {
                 return true;
             }
         }
         boolean diagonalCheck = Stream.of(boardArray[0][0], boardArray[1][1], boardArray[2][2])
-                .allMatch(sign::equals);
+                .allMatch(sign.name()::equals);
 
         return diagonalCheck ||
                 Stream.of(boardArray[0][2], boardArray[1][1], boardArray[2][0])
-                        .allMatch(sign::equals);
+                        .allMatch(sign.name()::equals);
     }
 
-    private boolean isDraw() {
+    public boolean isDraw() {
         for (String[] row : boardArray) {
             for (String cell : row) {
                 if ("".equals(cell)) {
