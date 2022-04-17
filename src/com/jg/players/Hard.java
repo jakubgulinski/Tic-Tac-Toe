@@ -18,14 +18,7 @@ public class Hard extends BasePlayer {
 
     @Override
     public void makeAMove() {
-        Board boardCopy = new Board();
-
-        for (int i = 0; i < boardCopy.getBoardArray().length; i++) {
-            for (int j = 0; j < boardCopy.getBoardArray()[i].length; j++) {
-                boardCopy.getBoardArray()[i][j] = this.board.getBoardArray()[i][j];
-            }
-        }
-
+        Board boardCopy = board.makeBoardCopy();
         String[][] boardCopyArray = boardCopy.getBoardArray();
 
         int bestScore = Integer.MIN_VALUE;

@@ -1,6 +1,5 @@
 package com.jg.game;
 
-import com.jg.players.BasePlayerInterface;
 import com.jg.ui.GameResultFrame;
 
 import javax.swing.*;
@@ -9,7 +8,7 @@ import java.util.stream.Stream;
 
 public class Board {
     private final JButton[][] buttons;
-    private String[][] boardArray;
+    private final String[][] boardArray;
     private GameResult gameResult;
 
     public Board() {
@@ -94,4 +93,16 @@ public class Board {
     public void showResult() {
         new GameResultFrame(gameResult);
     }
+
+    public Board makeBoardCopy() {
+        Board boardCopy = new Board();
+
+        for (int i = 0; i < boardCopy.getBoardArray().length; i++) {
+            for (int j = 0; j < boardCopy.getBoardArray()[i].length; j++) {
+                boardCopy.getBoardArray()[i][j] = boardArray[i][j];
+            }
+        }
+        return boardCopy;
+    }
+
 }

@@ -24,19 +24,6 @@ public class Game {
         }
     }
 
-    public BasePlayerInterface getPlayer1() {
-        return player1;
-    }
-
-    public BasePlayerInterface getPlayer2() {
-        return player2;
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
-
     public void start() {
         player1.setOpponent(player2);
         player1.makeAMove();
