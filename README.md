@@ -1,7 +1,6 @@
 # Tic Tac Toe
 
 Tic Tac Toe written in Java, using Swing for the UI.
-* Board made with JButtons
 * 3 different AI player levels, the hardest one made with the mini-max algorithm
 
 <p>
